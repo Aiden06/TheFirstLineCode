@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.first_layout.*
 class FirstActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("FirstActivity", this.toString())
         setContentView(R.layout.first_layout)
         button1.setOnClickListener {
             //Toast.makeText(this, "You clicked Button 1", Toast.LENGTH_SHORT).show()
@@ -30,8 +31,10 @@ class FirstActivity : AppCompatActivity() {
             //val intent = Intent(this, SecondActivity::class.java)
             //intent.putExtra("extra_data", data)
             //startActivity(intent)
+            //val intent = Intent(this, SecondActivity::class.java)
+            //startActivityForResult(intent, 1)
             val intent = Intent(this, SecondActivity::class.java)
-            startActivityForResult(intent, 1)
+            startActivity(intent)
         }
     }
 
