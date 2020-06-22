@@ -17,7 +17,9 @@
                 <data android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".SecondActivity">
+        <activity
+            android:name=".SecondActivity"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="com.example.haokai.activitytest.ACTION_START" />
 
@@ -27,7 +29,7 @@
         </activity>
         <activity
             android:name=".FirstActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:label="This is FirstActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
