@@ -2,6 +2,7 @@ package com.example.haokai.recyclerview
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
@@ -14,8 +15,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initFruits()
-        val layoutManager = StaggeredGridLayoutManager(3,
-            StaggeredGridLayoutManager.VERTICAL)
+        val layoutManager = GridLayoutManager(this, 3)
         recyclerView.layoutManager = layoutManager
         val adapter = FruitAdapter(fruitList)
         recyclerView.adapter = adapter
