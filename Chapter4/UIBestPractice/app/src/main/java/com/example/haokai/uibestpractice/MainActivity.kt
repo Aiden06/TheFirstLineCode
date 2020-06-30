@@ -8,7 +8,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     private val msgList = ArrayList<Msg>()
-    private var adapter: MsgAdapter? = null
+    private lateinit var adapter: MsgAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,7 +16,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         initMsg()
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        adapter = MsgAdapter(msgList)
+        if(!::adapter.isInitialized) {
+            adapter = MsgAdapter(msgList)
+        }
         recyclerView.adapter = adapter
         send.setOnClickListener(this)
     }
@@ -28,7 +30,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 if(content.isNotEmpty()){
                     val msg = Msg(content, Msg.TYPE_SEND)
                     msgList.add(msg)
-                    adapter?.notifyItemInserted(msgList.size - 1)
+                    adapter.notifyItemInserted(msgList.size - 1)
                     recyclerView.scrollToPosition(msgList.size - 1)
                     inputText.setText("")
                 }
