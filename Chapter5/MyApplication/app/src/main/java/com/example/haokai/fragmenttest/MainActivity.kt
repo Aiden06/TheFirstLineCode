@@ -10,11 +10,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         button.setOnClickListener{
-            replaceFragment(AnotherRightFragment())
+            //replaceFragment(AnotherRightFragment())
         }
-        replaceFragment(RightFragment())
+        //replaceFragment(RightFragment())
     }
 
+    /*
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
@@ -22,4 +23,6 @@ class MainActivity : AppCompatActivity() {
         transaction.addToBackStack(null)
         transaction.commit()
     }
+
+     */
 }
