@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         button.setOnClickListener {
             val intent = Intent("com.example.broadcasttest.MY_BROADCAST")
             intent.setPackage(packageName)
-            sendBroadcast(intent)
+            sendOrderedBroadcast(intent, null)
         }
         val intentFilter = IntentFilter()
         intentFilter.addAction("android.intent.action.TIME_TICK")
