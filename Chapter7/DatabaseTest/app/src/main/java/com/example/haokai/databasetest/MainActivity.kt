@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
      // val dbHelper = MyDatabaseHelper(this, "BookStore.db", 1)
-        val dbHelper = MyDatabaseHelper(this, "BookStore.db", 3)
+        val dbHelper = MyDatabaseHelper(this, "BookStore.db", 2)
         createDatabase.setOnClickListener {
             dbHelper.writableDatabase
         }
