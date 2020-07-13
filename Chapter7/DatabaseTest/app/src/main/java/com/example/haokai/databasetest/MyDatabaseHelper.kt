@@ -10,7 +10,8 @@ class MyDatabaseHelper(val context: Context, name: String, version: Int) :
 
     private val createBook = "create table Book (" +
             "id integer primary key autoincrement," +
-            "author text," + "price real," + "pages integer," + "name text)"
+            "author text," + "price real," + "pages integer," + "name text," +
+            "category_id integer)"
 
     private val createCategory = "create table Category (" +
             "id integer primary key autoincrement," +
@@ -23,8 +24,12 @@ class MyDatabaseHelper(val context: Context, name: String, version: Int) :
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL("drop table if exists Book")
-        db.execSQL("drop table if exists Category")
-        onCreate(db)
+        if(oldVersion <= 1) {
+            db.execSQL(createCategory)
+        }
+
+        if(oldVersion <= 2) {
+            db.execSQL("alter table Book add column category_id integer")
+        }
     }
 }

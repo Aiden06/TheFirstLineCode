@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
      // val dbHelper = MyDatabaseHelper(this, "BookStore.db", 1)
-        val dbHelper = MyDatabaseHelper(this, "BookStore.db", 2)
+        val dbHelper = MyDatabaseHelper(this, "BookStore.db", 3)
         createDatabase.setOnClickListener {
             dbHelper.writableDatabase
         }
@@ -71,10 +71,12 @@ class MainActivity : AppCompatActivity() {
             db.beginTransaction()
             try {
                 db.delete("Book", null, null)
+                /*
                 if (true) {
                     //手动抛出异常
                     throw NullPointerException()
                 }
+                */
                 val values = ContentValues().apply {
                     put("name", "Game of Thrones")
                     put("author", "George Martin")
