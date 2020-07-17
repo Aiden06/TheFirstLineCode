@@ -18,6 +18,7 @@ import java.io.File
 class MainActivity : AppCompatActivity() {
 
     val takePhoto = 1
+    val fromAlbum = 2
     lateinit var imageUri: Uri
     lateinit var outputImage: File
 
@@ -40,6 +41,12 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
             startActivityForResult(intent, takePhoto)
         }
+        fromAlbumBtn.setOnClickListener {
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            intent.type = "image/*"
+            startActivityForResult(intent, fromAlbum)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -52,8 +59,22 @@ class MainActivity : AppCompatActivity() {
                     imageView.setImageBitmap(rotateIfRequired(bitmap))
                 }
             }
+
+            fromAlbum -> {
+                if (resultCode == Activity.RESULT_OK && data != null) {
+                    data.data?.let { uri ->
+                        val bitmap = getBitmapFromUri(uri)
+                        imageView.setImageBitmap(bitmap)
+                    }
+                }
+            }
         }
     }
+
+    private fun getBitmapFromUri(uri: Uri): Bitmap? = contentResolver
+        .openFileDescriptor(uri, "r")?.use {
+            BitmapFactory.decodeFileDescriptor(it.fileDescriptor)
+        }
 
     private fun rotateIfRequired(bitmap: Bitmap): Bitmap {
         val exif = ExifInterface(outputImage.path)
