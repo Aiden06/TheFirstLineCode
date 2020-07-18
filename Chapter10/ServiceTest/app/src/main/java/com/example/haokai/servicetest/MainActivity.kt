@@ -7,6 +7,7 @@ import android.content.ServiceConnection
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
+import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -44,5 +45,11 @@ class MainActivity : AppCompatActivity() {
         unbindServiceBtn.setOnClickListener {
             unbindService(connection)
         }
+        startIntentServiceBtn.setOnClickListener {
+            Log.d("MainActivity", "Thread id is ${Thread.currentThread().name}")
+            val intent = Intent(this, MyIntentService::class.java)
+            startService(intent)
+        }
+
     }
 }
