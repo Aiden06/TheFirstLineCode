@@ -3,6 +3,8 @@ package com.example.haokai.networktest
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.lang.Exception
@@ -16,7 +18,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         sendRequestBtn.setOnClickListener {
-            sendRequestWithHttpURLConnection()
+            //sendRequestWithHttpURLConnection()
+            sendRequestWithOkHttp()
         }
     }
 
@@ -41,6 +44,24 @@ class MainActivity : AppCompatActivity() {
                 e.printStackTrace()
             } finally {
                 connection?.disconnect()
+            }
+        }
+    }
+
+    private fun sendRequestWithOkHttp() {
+        thread {
+            try {
+                val client = OkHttpClient()
+                val request = Request.Builder()
+                        .url("https://www.baidu.com")
+                        .build()
+                val response = client.newCall(request).execute()
+                val responseData = response.body?.string()
+                if (responseData != null) {
+                    showResponse(responseData)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }
