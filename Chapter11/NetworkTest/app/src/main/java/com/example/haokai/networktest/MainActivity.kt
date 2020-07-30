@@ -6,6 +6,7 @@ import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.xml.sax.InputSource
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
 import java.io.BufferedReader
@@ -15,6 +16,7 @@ import java.lang.Exception
 import java.lang.StringBuilder
 import java.net.HttpURLConnection
 import java.net.URL
+import javax.xml.parsers.SAXParserFactory
 import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
@@ -62,11 +64,23 @@ class MainActivity : AppCompatActivity() {
                 val response = client.newCall(request).execute()
                 val responseData = response.body?.string()
                 if (responseData != null) {
-                    parseXMLWithPull(responseData)
+                    parseXMLWithSAX(responseData)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+        }
+    }
+
+    private fun parseXMLWithSAX(xmlData: String) {
+        try {
+            val factory = SAXParserFactory.newInstance()
+            val xmlReader = factory.newSAXParser().xmlReader
+            val handler = ContentHandler()
+            xmlReader.contentHandler = handler
+            xmlReader.parse(InputSource(StringReader(xmlData)))
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
