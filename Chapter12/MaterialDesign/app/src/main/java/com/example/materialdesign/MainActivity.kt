@@ -26,6 +26,9 @@ class MainActivity : AppCompatActivity() {
             drawerLayout.closeDrawers()
             true
         }
+        fab.setOnClickListener {
+            Toast.makeText(this, "FAB clicked", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
