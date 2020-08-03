@@ -9,6 +9,7 @@ import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
@@ -51,6 +52,21 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = layoutManager
         val adapter = FruitAdapter(this, fruitList)
         recyclerView.adapter = adapter
+        swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
+        swipeRefresh.setOnRefreshListener {
+            refreshFruits(adapter)
+        }
+    }
+
+    private fun refreshFruits(adapter: FruitAdapter) {
+        thread {
+            Thread.sleep(2000)
+            runOnUiThread {
+                initFruits()
+                adapter.notifyDataSetChanged()
+                swipeRefresh.isRefreshing = false
+            }
+        }
     }
 
     private fun initFruits() {
