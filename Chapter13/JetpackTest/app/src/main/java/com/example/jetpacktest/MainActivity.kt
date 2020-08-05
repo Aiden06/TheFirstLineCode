@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.content.edit
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_main.*
@@ -22,20 +23,21 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this, MainViewModelFactory(countReserved))
             .get(MainViewModel::class.java)
         plusOneBtn.setOnClickListener {
-            viewModel.counter++
-            refreshCounter()
+            viewModel.plusOne()
         }
         clearBtn.setOnClickListener{
-            viewModel.counter = 0
-            refreshCounter()
+            viewModel.clear()
         }
-        refreshCounter()
+        viewModel.counter.observe(this, Observer { count ->
+            infoText.text = count.toString()
+        })
+        lifecycle.addObserver(MyObserver())
     }
 
     override fun onPause() {
         super.onPause()
         sp.edit { 
-            putInt("count_reserved", viewModel.counter)
+            putInt("count_reserved", viewModel.counter.value ?: 0)
         }
     }
 
