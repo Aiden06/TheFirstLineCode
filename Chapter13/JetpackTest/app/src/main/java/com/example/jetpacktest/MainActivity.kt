@@ -32,6 +32,13 @@ class MainActivity : AppCompatActivity() {
             infoText.text = count.toString()
         })
         lifecycle.addObserver(MyObserver())
+        getUserBtn.setOnClickListener {
+            val userId = (0..1000).random().toString()
+            viewModel.getUser(userId)
+        }
+        viewModel.user.observe(this, Observer { user ->
+            infoText.text = user.firstName
+        })
     }
 
     override fun onPause() {
