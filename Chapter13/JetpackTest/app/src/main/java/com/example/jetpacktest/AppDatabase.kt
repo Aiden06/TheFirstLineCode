@@ -16,11 +16,18 @@ abstract class AppDatabase : RoomDatabase(){
 
     companion object {
 
-        val MIGRATION_1_2 = object  : Migration(1, 2) {
+        val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("create table Book (id integer primary" +
                         "key autoincrement not null, name text not null," +
                         "pages integer not null)")
+            }
+        }
+
+        val MIGRATION_2_3 =object : Migration(2,3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("alter table Book add column author text not null" +
+                        "default 'unknown")
             }
         }
 
@@ -33,7 +40,7 @@ abstract class AppDatabase : RoomDatabase(){
             }
             return Room.databaseBuilder(context.applicationContext,
                 AppDatabase::class.java, "app_database")
-                .addMigrations(MIGRATION_1_2)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                 .build().apply {
                 instance = this
             }
